@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Fake Mutual Fund App Detector</title>
+    <style>
+      body { font-family: Arial, sans-serif; background:#f2f4f7; padding:40px; }
+      .card { max-width:700px; margin:auto; background:#fff; padding:25px; border-radius:10px; box-shadow:0 4px 15px rgba(0,0,0,0.1); }
+      h1 { color:#0056b3; }
+      input[type=file] { width:100%; padding:10px; }
+      button { margin-top:15px; padding:12px; width:100%; border:none; background:#0056b3; color:white; border-radius:6px; font-size:16px; cursor:pointer; }
+      button:hover { background:#003f80; }
+      .result { padding:15px; margin-top:20px; border-radius:8px; }
+      .high { background:#ffecec; border-left:6px solid #d10000; }
+      .medium { background:#fff7e6; border-left:6px solid #e6a100; }
+      .low { background:#e6ffe6; border-left:6px solid #00a000; }
+    </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Fake Mutual Fund App Detector</h1>
+    <p>Upload an APK to check if it's safe or fake.</p>
+
+    <form method="POST" enctype="multipart/form-data">
+      <input type="file" name="apkfile" accept=".apk" required>
+      <button type="submit">Scan APK</button>
+    </form>
+
+    {% if result %}
+      <div class="result 
+           {% if 'HIGH' in result.verdict %}high
+           {% elif 'MEDIUM' in result.verdict %}medium
+           {% else %}low
+           {% endif %}">
+
+        <h3>Detection Result</h3>
+        <p><b>App Name:</b> {{ result.app_name }}</p>
+        <p><b>Package:</b> {{ result.package }}</p>
+        <p><b>Score:</b> {{ result.score }}</p>
+        <p><b>Verdict:</b> {{ result.verdict }}</p>
+
+        <h4>Evidence:</h4>
+        <ul>
+          {% for ev in result.evidence %}
+          <li>{{ ev }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+    <hr>
+    <p style="font-size:12px;color:#666;">Reference: /mnt/data/Fake App detection - BMSCE.pdf</p>
+  </div>
+</body>
+</html>
