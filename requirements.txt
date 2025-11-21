@@ -1,0 +1,5 @@
+Flask
+androguard
+Pillow
+imagehash
+rapidfuzz
